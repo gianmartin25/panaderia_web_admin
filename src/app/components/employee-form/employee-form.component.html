@@ -1,0 +1,85 @@
+<mat-card class="cardWithShadow theme-card">
+  <mat-card-header>
+    <mat-card-title class="m-b-0">Registrar empleado</mat-card-title>
+  </mat-card-header>
+  <mat-card-content class="b-t-1">
+    <form [formGroup]="employeeForm" (ngSubmit)="onSubmit()">
+      <div class="row">
+        <div class="col-lg-6">
+          <mat-label class="f-w-600 m-b-8 d-block">Tipo de Documento</mat-label>
+          <mat-form-field appearance="outline" class="w-100">
+            <mat-select formControlName="tipoDocumento">
+              @for(option of documentTypes; track option.id) {
+              <mat-option [value]="option.id">{{
+                option.nombre
+                }}</mat-option>
+              }
+            </mat-select>
+          </mat-form-field>
+        </div>
+        <div class="col-lg-6">
+          <!-- input -->
+          <mat-label class="f-w-600 m-b-8 d-block">N° de Documento</mat-label>
+          <mat-form-field appearance="outline" class="w-100" color="primary">
+            <input matInput placeholder="your name" formControlName="documento" />
+          </mat-form-field>
+        </div>
+        <div class="col-lg-6">
+          <!-- input -->
+          <mat-label class="f-w-600 m-b-8 d-block">Nombres</mat-label>
+          <mat-form-field appearance="outline" class="w-100" color="primary">
+            <input matInput placeholder="your name" formControlName="nombres" />
+          </mat-form-field>
+        </div>
+        <div class="col-lg-6">
+          <!-- input -->
+          <mat-label class="f-w-600 m-b-8 d-block">Apellidos</mat-label>
+          <mat-form-field appearance="outline" class="w-100" color="primary">
+            <input matInput placeholder="your name " formControlName="apellidos" />
+          </mat-form-field>
+        </div>
+        <div class="col-lg-6">
+          <!-- input -->
+          <mat-label class="f-w-600 m-b-8 d-block">Fecha de Nacimiento</mat-label>
+          <app-date-picker [formGroup]="employeeForm" controlName="fechaNacimiento"></app-date-picker>
+        </div>
+        <div class=" col-lg-6">
+          <!-- input -->
+          <mat-label class="f-w-600 m-b-8 d-block">Fecha de Contratación</mat-label>
+          <app-date-picker [formGroup]="employeeForm" controlName="fechaContratacion"></app-date-picker>
+        </div>
+
+        <!-- <div class="col-lg-6">
+          <mat-label class="f-w-600 m-b-8 d-block">Password</mat-label>
+          <mat-form-field appearance="outline" class="w-100" color="primary">
+            <input matInput type="password" placeholder="your password" />
+          </mat-form-field>
+        </div> -->
+
+
+        <div class="col-lg-6">
+          <mat-label class="f-w-600 m-b-8 d-block">Cargo</mat-label>
+          <mat-form-field appearance="outline" class="w-100">
+            <mat-select formControlName="idCargoEmpleado">
+              @for(option of rolesEmployee; track option.id) {
+              <mat-option [value]="option.id">{{
+                option.nombre
+                }}</mat-option>
+              }
+            </mat-select>
+          </mat-form-field>
+        </div>
+      </div>
+
+      <div class="m-t-12">
+        <mat-dialog-actions>
+          <button mat-flat-button  color="primary" class="m-r-8">
+            <!-- mat-dialog-close -->
+            Submit
+          </button>
+          <button mat-stroked-button color="warn">Cancel</button>
+        </mat-dialog-actions>
+      </div>
+    </form>
+  </mat-card-content>
+</mat-card>
