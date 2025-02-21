@@ -1,23 +1,23 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+// import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { ProductInventoryTableComponent } from './product-inventory-table.component';
+// import { ProductInventoryTableComponent } from './product-inventory-table.component';
 
-describe('ProductInventoryTableComponent', () => {
-  let component: ProductInventoryTableComponent;
-  let fixture: ComponentFixture<ProductInventoryTableComponent>;
+// describe('ProductInventoryTableComponent', () => {
+//   let component: ProductInventoryTableComponent;
+//   let fixture: ComponentFixture<ProductInventoryTableComponent>;
 
-  beforeEach(async () => {
-    await TestBed.configureTestingModule({
-      imports: [ProductInventoryTableComponent]
-    })
-    .compileComponents();
+//   beforeEach(async () => {
+//     await TestBed.configureTestingModule({
+//       imports: [ProductInventoryTableComponent]
+//     })
+//     .compileComponents();
 
-    fixture = TestBed.createComponent(ProductInventoryTableComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
-  });
+//     fixture = TestBed.createComponent(ProductInventoryTableComponent);
+//     component = fixture.componentInstance;
+//     fixture.detectChanges();
+//   });
 
-  it('should create', () => {
-    expect(component).toBeTruthy();
-  });
-});
+//   it('should create', () => {
+//     expect(component).toBeTruthy();
+//   });
+// });

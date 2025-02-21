@@ -8,7 +8,7 @@ import { MaterialModule } from 'src/app/material.module';
 import { Category } from 'src/app/models/category';
 import { Supplier } from 'src/app/models/supplier';
 import { CategoryService } from 'src/app/services/category.service';
-import { ProductService } from 'src/app/services/product.service';
+import { ProductService } from 'src/app/services/product/product.service';
 import { SupplierService } from 'src/app/services/supplier.service';
 
 interface Food {

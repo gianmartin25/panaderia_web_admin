@@ -13,7 +13,7 @@ import { MatSelectModule } from '@angular/material/select';
 import { DocumentType } from 'src/app/models/document-type';
 import { RoleEmployee } from 'src/app/models/role-employee';
 import { DocumentTypeService } from 'src/app/services/document-type.service';
-import { EmpleadoService } from 'src/app/services/empleado.service';
+import { EmpleadoService } from 'src/app/services/employees/employee.service';
 import { RoleEmployeeService } from 'src/app/services/role-employee.service';
 import { DatePickerComponent } from "../date-picker/date-picker.component";
 

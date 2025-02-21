@@ -4,7 +4,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { EmployeeFormComponent } from 'src/app/components/employee-form/employee-form.component';
 import { MaterialModule } from 'src/app/material.module';
 import { Employee } from 'src/app/models/employee.model';
-import { EmpleadoService } from 'src/app/services/empleado.service';
+import { EmpleadoService } from 'src/app/services/employees/employee.service';
 import { EmployeeTableComponent } from "../../../components/employee-table/employee-table.component";
 
 // table 1

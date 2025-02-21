@@ -5,7 +5,7 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { MaterialModule } from 'src/app/material.module';
 import { Employee } from 'src/app/models/employee.model';
-import { EmpleadoService } from 'src/app/services/empleado.service';
+import { EmpleadoService } from 'src/app/services/employees/employee.service';
 
 @Component({
   selector: 'employee-table',
