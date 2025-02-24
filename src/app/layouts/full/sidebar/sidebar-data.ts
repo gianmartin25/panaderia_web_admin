@@ -5,9 +5,9 @@ export const navItems: NavItem[] = [
     navCap: 'Cuentas',
   },
   {
-    displayName: 'Usuarios',
+    displayName: 'Clientes',
     iconName: 'solar:widget-add-line-duotone',
-    route: '/users',
+    route: '/admin/customers',
   },
   // {
   //   displayName: 'Dashboard',
@@ -33,11 +33,11 @@ export const navItems: NavItem[] = [
     iconName: 'solar:danger-circle-line-duotone',
     route: '/admin/employees',
   },
-  {
-    displayName: 'Transportistas',
-    iconName: 'solar:bookmark-square-minimalistic-line-duotone',
-    route: '/admin/carriers',
-  },
+  // {
+  //   displayName: 'Transportistas',
+  //   iconName: 'solar:bookmark-square-minimalistic-line-duotone',
+  //   route: '/admin/carriers',
+  // },
   {
     displayName: 'Inventario Productos',
     iconName: 'solar:file-text-line-duotone',

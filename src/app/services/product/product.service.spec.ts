@@ -28,29 +28,31 @@ describe('ProductService', () => {
     );
   });
 
-  // it('debería agregar un nuevo producto', (done) => {
-  //   const newProduct: RegisterProduct = {
-  //     nombre: 'Producto A',
-  //     descripcion: 'Descripción del producto',
-  //     precio: '100',
-  //     proveedorId: 1,
-  //     categoriaId: 1,
-  //   };
+  it('debería agregar un nuevo producto', (done) => {
+    const newProduct: RegisterProduct = {
+      nombre: 'Producto A',
+      descripcion: 'Descripción del producto',
+      precio: '100',
+      proveedorId: 1,
+      categoriaId: 1,
+    };
 
-  //   const dataTransfer = new DataTransfer();
-  //   dataTransfer.items.add(new File([''], 'image.png', { type: 'image/png' }));
-  //   const image = dataTransfer.files;
+    const blob = new Blob(['dummy content'], { type: 'image/png' });
+    const fakeFile = new File([blob], 'test-image.png', { type: 'image/png' });
+    const dataTransfer = new DataTransfer();
+    dataTransfer.items.add(fakeFile);
+    const image = dataTransfer.files;
 
-  //   service.addProduct(newProduct, image).subscribe(
-  //     (product) => {
-  //       expect(product).toBeTruthy();
-  //       console.log('Producto agregado:', product);
-  //       done();
-  //     },
-  //     (error) => {
-  //       fail('Error al agregar el producto: ' + error.message);
-  //       done();
-  //     } 
-  //   );
-  // });
+    service.addProduct(newProduct, image).subscribe(
+      (product) => {
+        expect(product).toBeTruthy();
+        console.log('Producto agregado:', product);
+        done();
+      },
+      (error) => {
+        fail('Error al agregar el producto: ' + error.message);
+        done();
+      }
+    );
+  });
 });

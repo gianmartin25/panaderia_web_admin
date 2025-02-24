@@ -23,13 +23,15 @@ export class EmpleadoService extends BaseHttpService {
   }
 
   addEmployee(employee: RegisterEmployee): Observable<Employee> {
-    return this.http.post<Employee>(`${this.apiUrl}/empleados/registrar`, employee).pipe(
-      tap((newEmployee) => {
-        this.employeesSubject.next([
-          ...this.employeesSubject.getValue(),
-          newEmployee,
-        ]);
-      })
-    );
+    return this.http
+      .post<Employee>(`${this.apiUrl}/empleados/registrar`, employee)
+      .pipe(
+        tap((newEmployee) => {
+          this.employeesSubject.next([
+            ...this.employeesSubject.getValue(),
+            newEmployee,
+          ]);
+        })
+      );
   }
 }

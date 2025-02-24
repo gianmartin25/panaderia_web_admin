@@ -12,34 +12,39 @@ import { AdminEmployeesComponent } from './employees/employees.component';
 import { ProductsComponent } from './products/products.component';
 import { ProductInventoryComponent } from './product-inventory/product-inventory.component';
 import { SalesComponent } from './sales/sales.component';
+import { CustomersComponent } from './customers/customers.component';
 
 export const AdminRoutes: Routes = [
   {
     path: '',
     children: [
       {
+        path: 'customers',
+        component: CustomersComponent,
+      },
+      {
         path: 'employees',
         component: AdminEmployeesComponent,
       },
       {
         path: 'products',
-        component: ProductsComponent
+        component: ProductsComponent,
       },
       {
         path: 'products-inventory',
-        component: ProductInventoryComponent
+        component: ProductInventoryComponent,
       },
       {
         path: 'sale',
-        component: AppTablesComponent
+        component: AppTablesComponent,
       },
       {
         path: 'sales',
-        component: SalesComponent
+        component: SalesComponent,
       },
       {
         path: 'carriers',
-        component: AppTablesComponent
+        component: AppTablesComponent,
       },
       {
         path: 'badge',
@@ -47,7 +52,7 @@ export const AdminRoutes: Routes = [
       },
       {
         path: 'chips',
-        component: AppChipsComponent  ,
+        component: AppChipsComponent,
       },
       {
         path: 'lists',

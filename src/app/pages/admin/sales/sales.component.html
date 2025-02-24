@@ -1,69 +1,90 @@
-<table mat-table [dataSource]="sales" class="mat-elevation-z8">
-  <!-- Columna de ID -->
-  <!-- <ng-container matColumnDef="id">
+<mat-card class="cardWithShadow mat-elevation-z8">
+  <mat-card-content>
+    <mat-card-title>Ventas</mat-card-title>
+    <table mat-table [dataSource]="sales">
+      <!-- Columna de ID -->
+      <!-- <ng-container matColumnDef="id">
       <th mat-header-cell *matHeaderCellDef> ID </th>
       <td mat-cell *matCellDef="let venta"> {{venta.id}} </td>
     </ng-container> -->
 
-  <!-- Columna de Fecha -->
-  <ng-container matColumnDef="fechaCreacion">
-    <th mat-header-cell *matHeaderCellDef>Fecha</th>
-    <td mat-cell *matCellDef="let venta">{{ venta.fechaCreacion | date }}</td>
-  </ng-container>
+      <!-- Columna de Fecha -->
+      <ng-container matColumnDef="fechaCreacion">
+        <th mat-header-cell *matHeaderCellDef>Fecha</th>
+        <td mat-cell *matCellDef="let venta">
+          {{ venta.fechaCreacion | date }}
+        </td>
+      </ng-container>
 
-  <!-- Columna de Cliente -->
-  <ng-container matColumnDef="cliente">
-    <th mat-header-cell *matHeaderCellDef>Cliente</th>
-    <td mat-cell *matCellDef="let venta">{{ venta.cliente }}</td>
-  </ng-container>
+      <!-- Columna de Cliente -->
+      <ng-container matColumnDef="cliente">
+        <th mat-header-cell *matHeaderCellDef>Cliente</th>
+        <td mat-cell *matCellDef="let venta">{{ venta.cliente }}</td>
+      </ng-container>
 
-  <!-- Columna de Total -->
-  <ng-container matColumnDef="total">
-    <th mat-header-cell *matHeaderCellDef>Total</th>
-    <td mat-cell *matCellDef="let venta">
-      {{ venta.total | currency : "PEN" }}
-    </td>
-  </ng-container>
+      <!-- Columna de Total -->
+      <ng-container matColumnDef="total">
+        <th mat-header-cell *matHeaderCellDef>Total</th>
+        <td mat-cell *matCellDef="let venta">
+          {{ venta.total | currency : "PEN" }}
+        </td>
+      </ng-container>
 
-  <!-- Columna de Estado -->
-  <ng-container matColumnDef="estado">
-    <th mat-header-cell *matHeaderCellDef>Estado</th>
-    <td mat-cell *matCellDef="let venta">{{ venta.estado }}</td>
-  </ng-container>
-  <ng-container matColumnDef="pagado">
-    <th mat-header-cell *matHeaderCellDef>Pagado</th>
-    <td mat-cell *matCellDef="let venta">
-      <span
-        class="bg-light-success text-success rounded f-w-600 p-6 p-y-4 f-s-12"
-        [ngClass]="{ 'bg-light-warning text-warning': !venta.pagado }"
-      >
-        {{ venta.pagado ? "Pagado" : "Pendiente" }}
-      </span>
-    </td>
-  </ng-container>
+      <!-- Columna de Estado -->
+      <ng-container matColumnDef="estado">
+        <th mat-header-cell *matHeaderCellDef>Estado</th>
+        <td mat-cell *matCellDef="let venta">{{ venta.estado }}</td>
+      </ng-container>
+      <ng-container matColumnDef="pagado">
+        <th mat-header-cell *matHeaderCellDef>Pagado</th>
+        <td mat-cell *matCellDef="let venta">
+          <span
+            class="bg-light-success text-success rounded f-w-600 p-6 p-y-4 f-s-12"
+            [ngClass]="{ 'bg-light-warning text-warning': !venta.pagado }"
+          >
+            {{ venta.pagado ? "Pagado" : "Pendiente" }}
+          </span>
+        </td>
+      </ng-container>
 
-  <!-- Columna de Productos -->
-  <ng-container matColumnDef="productos">
-    <th mat-header-cell *matHeaderCellDef>Productos</th>
-    <td mat-cell *matCellDef="let sale">
-      <mat-accordion>
-        <mat-expansion-panel>
-          <mat-expansion-panel-header>
-            <mat-panel-title> Ver Productos </mat-panel-title>
-          </mat-expansion-panel-header>
-          <mat-list>
-            <mat-list-item *ngFor="let producto of sale.productos">
-              <img [src]="producto.imagen" width="30" /> {{ producto.nombre }} -
-              {{ producto.cantidad }} x
-              {{ producto.precio | currency : "PEN" }}
-            </mat-list-item>
-          </mat-list>
-        </mat-expansion-panel>
-      </mat-accordion>
-    </td>
-  </ng-container>
+      <!-- Columna de Productos -->
+      <ng-container matColumnDef="productos">
+        <th mat-header-cell *matHeaderCellDef>Productos</th>
+        <td mat-cell *matCellDef="let sale">
+          <mat-accordion>
+            <mat-expansion-panel>
+              <mat-expansion-panel-header>
+                <mat-panel-title> Ver Productos </mat-panel-title>
+              </mat-expansion-panel-header>
+              <mat-list>
+                <mat-list-item
+                  *ngFor="let producto of sale.productos"
+                >
+                  <div
+                  class="flex gap-2 items-center"
+                
+                  >
+                    <img
+                      [src]="producto.imagen"
+                      class="object-contain"
+                      width="40"
+                      height="40"
+                    />
+                    <span class="text-black"
+                      >{{ producto.nombre }} - {{ producto.cantidad }} x
+                      {{ producto.precio | currency : "PEN" }}</span
+                    >
+                  </div>
+                </mat-list-item>
+              </mat-list>
+            </mat-expansion-panel>
+          </mat-accordion>
+        </td>
+      </ng-container>
 
-  <!-- Definición de las columnas -->
-  <tr mat-header-row *matHeaderRowDef="columnas"></tr>
-  <tr mat-row *matRowDef="let row; columns: columnas"></tr>
-</table>
+      <!-- Definición de las columnas -->
+      <tr mat-header-row *matHeaderRowDef="columnas"></tr>
+      <tr mat-row *matRowDef="let row; columns: columnas"></tr>
+    </table>
+  </mat-card-content>
+</mat-card>
