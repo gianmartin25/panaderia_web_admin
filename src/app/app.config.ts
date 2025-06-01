@@ -26,9 +26,12 @@ import { NgScrollbarModule } from 'ngx-scrollbar';
 //Import all material modules
 import { MaterialModule } from './material.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { provideToastr } from 'ngx-toastr';
 
 export const appConfig: ApplicationConfig = {
   providers: [
+    provideAnimationsAsync(),
+    provideToastr(),
     provideZoneChangeDetection({ eventCoalescing: true }),
     provideRouter(
       routes,
@@ -47,7 +50,7 @@ export const appConfig: ApplicationConfig = {
       ReactiveFormsModule,
       MaterialModule,
       TablerIconsModule.pick(TablerIcons),
-      NgScrollbarModule,
+      NgScrollbarModule
     ),
   ],
 };

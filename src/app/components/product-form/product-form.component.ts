@@ -1,8 +1,14 @@
 import { CommonModule } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
 import { Component, inject } from '@angular/core';
-import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import {
+  FormBuilder,
+  FormGroup,
+  ReactiveFormsModule,
+  Validators,
+} from '@angular/forms';
 import { MatDialogRef } from '@angular/material/dialog';
+import { ToastrService } from 'ngx-toastr';
 import { Observable } from 'rxjs';
 import { MaterialModule } from 'src/app/material.module';
 import { Category } from 'src/app/models/category';
@@ -19,13 +25,9 @@ interface Food {
 @Component({
   selector: 'app-product-form',
   standalone: true,
-  imports: [
-    MaterialModule,
-    ReactiveFormsModule,
-    CommonModule
-  ],
+  imports: [MaterialModule, ReactiveFormsModule, CommonModule],
   templateUrl: './product-form.component.html',
-  styleUrl: './product-form.component.scss'
+  styleUrl: './product-form.component.scss',
 })
 export class ProductFormComponent {
   public productForm: FormGroup;
@@ -38,32 +40,27 @@ export class ProductFormComponent {
   previews: string[] = [];
   imageInfos?: Observable<any>;
 
-
   private categoryService = inject(CategoryService);
   private supplierService = inject(SupplierService);
   private productService = inject(ProductService);
-
+  private toastr: ToastrService = inject(ToastrService);
 
   constructor(
     private dialogRef: MatDialogRef<ProductFormComponent>,
     private formBuilder: FormBuilder
   ) {
-
     this.productForm = this.formBuilder.group({
-      nombre: [''],
-      descripcion: [''],
-      precio: [''],
-      categoriaId: [0],
-      proveedorId: [0]
+      nombre: ['', Validators.required],
+      fechaCreacion: [this.formatDate(new Date()), Validators.required],
+      descripcion: ['', Validators.required],
+      precio: ['', Validators.required],
+      categoriaId: [0, Validators.required],
+      proveedorId: [0, Validators.required],
     });
   }
 
   public categories: Category[] = [];
   public suppliers: Supplier[] = [];
-
-
-
-
 
   ngOnInit(): void {
     this.getCategories();
@@ -74,28 +71,53 @@ export class ProductFormComponent {
     this.categoryService.getCategories().subscribe({
       next: (categories) => {
         this.categories = categories;
-      }
-    })
+      },
+    });
   }
 
   public getSuppliers() {
     this.supplierService.getSuppliers().subscribe({
       next: (suppliers) => {
         this.suppliers = suppliers;
-      }
-    })
+      },
+    });
   }
 
   formatDate(date: Date) {
-    return new Date(date).toISOString().split('T')[0]
+    return new Date(date).toISOString().split('T')[0];
   }
-
 
   onSubmit() {
     console.log(this.productForm.value);
+    if (!this.validateForm()) { return; }
     this.addProduct();
   }
 
+  validateForm(): boolean {
+    if (this.productForm.invalid) {
+      this.toastr.error(
+        'Por favor, complete todos los campos requeridos.',
+        'Formulario inválido',
+        {
+          timeOut: 3000,
+          positionClass: 'toast-top-right',
+        }
+      );
+      return false;
+    }
+    if (!this.selectedFiles) {
+      this.toastr.error(
+        'Por favor, seleccione al menos un imagen.',
+        'Archivo no seleccionado',
+        {
+          timeOut: 3000,
+          positionClass: 'toast-top-right',
+        }
+      );
+      return false;
+    }
+    return true;
+  }
 
   selectFiles(event: any): void {
     this.message = [];
@@ -121,17 +143,29 @@ export class ProductFormComponent {
     }
   }
 
-
   addProduct(): void {
-    this.productService.addProduct(this.productForm.value, this.selectedFiles).subscribe({
-      next: (product) => {
-        console.log('Product added:', product);
-        this.dialogRef.close();
-      },
-      error: (err) => {
-        console.error('Error adding employee:', err);
-      }
-    });
+    this.productService
+      .addProduct(this.productForm.value, this.selectedFiles)
+      .subscribe({
+        next: (product) => {
+          console.log('Product added:', product);
+          this.dialogRef.close();
+          this.toastr.success(
+            'Producto agregado correctamente',
+            'Registro exitoso',
+            {
+              timeOut: 3000,
+              positionClass: 'toast-top-right',
+            }
+          );
+        },
+        error: (err) => {
+          console.error('Error adding employee:', err);
+          this.toastr.error(err.error.error, 'Registro fallido', {
+            timeOut: 3000,
+            positionClass: 'toast-top-right',
+          });
+        },
+      });
   }
-
 }

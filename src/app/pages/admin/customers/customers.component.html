@@ -1,9 +1,17 @@
 <div>
-    <mat-card class="cardWithShadow">
-      <mat-card-content>  
-        <div class="table-responsive">
-          <customer-table />
-        </div>
-      </mat-card-content>
-    </mat-card>
+  <div class="flex justify-end align-items-center mb-4">
+    <mat-form-field appearance="outline">
+      <mat-label>Buscar</mat-label>
+      <input matInput placeholder="Buscar" #searchInput (keyup)="customerTable.applyFilter(searchInput.value)" />
+      <mat-icon matSuffix>search</mat-icon>
+      <mat-hint>Nombre o Correo</mat-hint>
+    </mat-form-field>
   </div>
+  <mat-card class="cardWithShadow">
+    <mat-card-content>
+      <div class="table-responsive">
+        <customer-table #customerTable />
+      </div>
+    </mat-card-content>
+  </mat-card>
+</div>

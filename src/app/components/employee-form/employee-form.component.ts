@@ -1,11 +1,21 @@
 import { CommonModule } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
 import { Component, inject, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import {
+  FormBuilder,
+  FormGroup,
+  FormsModule,
+  ReactiveFormsModule,
+  Validators,
+} from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatCheckboxModule } from '@angular/material/checkbox';
-import { MatDialogActions, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
+import {
+  MatDialogActions,
+  MatDialogModule,
+  MatDialogRef,
+} from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatRadioModule } from '@angular/material/radio';
@@ -15,7 +25,8 @@ import { RoleEmployee } from 'src/app/models/role-employee';
 import { DocumentTypeService } from 'src/app/services/document-type.service';
 import { EmpleadoService } from 'src/app/services/employees/employee.service';
 import { RoleEmployeeService } from 'src/app/services/role-employee.service';
-import { DatePickerComponent } from "../date-picker/date-picker.component";
+import { DatePickerComponent } from '../date-picker/date-picker.component';
+import { ToastrService } from 'ngx-toastr';
 
 interface Food {
   value: string;
@@ -48,32 +59,27 @@ export class EmployeeFormComponent implements OnInit {
   private documentTypeService = inject(DocumentTypeService);
   private employeeService = inject(EmpleadoService);
   private rolesEmployeeService = inject(RoleEmployeeService);
-
+  private toastr: ToastrService = inject(ToastrService);
 
   constructor(
     private dialogRef: MatDialogRef<EmployeeFormComponent>,
     private http: HttpClient,
     private formBuilder: FormBuilder
   ) {
-
-
     this.employeeForm = this.formBuilder.group({
       nombres: [''],
       apellidos: [''],
+      email: [''],
       documento: [''],
       tipoDocumento: [0],
       idCargoEmpleado: [0],
-      fechaNacimiento: [''],
-      fechaContratacion: [''],
+      fechaNacimiento: ['', Validators.required],
+      fechaContratacion: ['', Validators.required],
     });
   }
 
   public documentTypes: DocumentType[] = [];
   public rolesEmployee: RoleEmployee[] = [];
-
-
-
-
 
   ngOnInit(): void {
     this.getDocumentTypes();
@@ -84,7 +90,7 @@ export class EmployeeFormComponent implements OnInit {
     this.rolesEmployeeService.getRolesEmployee().subscribe({
       next: (rolesEmployee) => {
         this.rolesEmployee = rolesEmployee;
-      }
+      },
     });
   }
 
@@ -92,32 +98,44 @@ export class EmployeeFormComponent implements OnInit {
     this.documentTypeService.getDocumentTypes().subscribe({
       next: (documentTypes) => {
         this.documentTypes = documentTypes;
-      }
-    })
+      },
+    });
   }
 
   formatDate(date: Date) {
-    return new Date(date).toISOString().split('T')[0]
+    return new Date(date).toISOString().split('T')[0];
   }
 
-
-   onSubmit() {
-    this.employeeForm.value.fechaNacimiento = this.formatDate(this.employeeForm.value.fechaNacimiento);
-    this.employeeForm.value.fechaContratacion = this.formatDate(this.employeeForm.value.fechaContratacion);
+  onSubmit() {
+    if (this.employeeForm.invalid) {
+      this.toastr.error(
+        'Por favor, completa todos los campos requeridos.',
+        'Error'
+      );
+      return;
+    }
+    this.employeeForm.value.fechaNacimiento = this.formatDate(
+      this.employeeForm.value.fechaNacimiento
+    );
+    this.employeeForm.value.fechaContratacion = this.formatDate(
+      this.employeeForm.value.fechaContratacion
+    );
     console.log(this.employeeForm.value);
+
     this.addEmployee();
   }
-
 
   addEmployee(): void {
     this.employeeService.addEmployee(this.employeeForm.value).subscribe({
       next: (employee) => {
         console.log('Employee added:', employee);
+        this.toastr.success('Empleado agregado correctamente', 'Éxito');
         this.dialogRef.close('Form submitted');
       },
       error: (err) => {
+        this.toastr.error(err.error.message, 'Error');
         console.error('Error adding employee:', err);
-      }
+      },
     });
   }
 }

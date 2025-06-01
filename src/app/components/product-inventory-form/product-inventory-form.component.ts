@@ -7,6 +7,7 @@ import {
   ReactiveFormsModule,
 } from '@angular/forms';
 import { MatDialogRef } from '@angular/material/dialog';
+import { ToastrService } from 'ngx-toastr';
 import {
   debounceTime,
   distinctUntilChanged,
@@ -15,8 +16,10 @@ import {
 } from 'rxjs';
 import { MaterialModule } from 'src/app/material.module';
 import { Product } from 'src/app/models/product';
-import { ProductInventoryService } from 'src/app/services/product-inventory.service';
+import { TypeMovement } from 'src/app/models/type-movement/type-movement.model';
+import { ProductInventoryService } from 'src/app/services/product-inventory/product-inventory.service';
 import { ProductService } from 'src/app/services/product/product.service';
+import { TypeMovementService } from 'src/app/services/type-movement/type-movement.service';
 
 @Component({
   selector: 'app-product-inventory-form',
@@ -33,6 +36,9 @@ export class ProductInventoryFormComponent implements OnInit, OnDestroy {
 
   private productInventoryService = inject(ProductInventoryService);
   private productService = inject(ProductService);
+  private typeMovementService = inject(TypeMovementService);
+  private toastr: ToastrService = inject(ToastrService);
+  public typesMovement: TypeMovement[] = []; // Cambiar el tipo según tu modelo
 
   constructor(
     private dialogRef: MatDialogRef<ProductInventoryFormComponent>,
@@ -40,7 +46,9 @@ export class ProductInventoryFormComponent implements OnInit, OnDestroy {
   ) {
     this.productInventoryForm = this.formBuilder.group({
       cantidad: [''],
+      tipoMovimientoId: [],
     });
+    this.getTypesMovement();
   }
 
   ngOnInit() {
@@ -82,15 +90,37 @@ export class ProductInventoryFormComponent implements OnInit, OnDestroy {
       .addProductInventory({
         cantidad: this.productInventoryForm.value.cantidad,
         productoId: this.selectedProduct.id,
+        tipoMovimientoId: this.productInventoryForm.value.tipoMovimientoId,
       })
       .subscribe({
         next: (product) => {
           console.log('Product added:', product);
+          this.toastr.success(
+            'Producto agregado correctamente',
+            'Registro Exitoso'
+          );
           this.dialogRef.close();
         },
         error: (err) => {
+          this.toastr.error(
+            err.error || 'Error al agregar el producto',
+            'Registro Fallido'
+          );
           console.error('Error adding employee:', err);
         },
       });
+  }
+
+  getTypesMovement() {
+    this.typeMovementService.getTypeMovements().subscribe({
+      next: (typesMovement) => {
+        this.typesMovement = typesMovement;
+        console.log('Tipos de movimiento obtenidos:', this.typesMovement);
+        // Si necesitas hacer algo con los tipos de movimiento, puedes hacerlo aquí
+      },
+      error: (err) => {
+        console.error('Error fetching types of movement:', err);
+      },
+    });
   }
 }

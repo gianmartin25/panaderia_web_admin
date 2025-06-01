@@ -1,27 +1,32 @@
+<div class="flex justify-content-between align-items-center mb-4">
+  <button
+    (click)="openDialog('0ms', '0ms')"
+    mat-flat-button
+    class="mb-4"
+    color="primary"
+    matTooltip="Info about the action"
+    matTooltipShowDelay="false"
+    matTooltipHideDelay="false"
+  >
+    <mat-icon>add</mat-icon>
+    Agregar
+  </button>
+  <mat-form-field appearance="outline">
+    <mat-label>Buscar</mat-label>
+    <input matInput placeholder="Buscar" #searchInput (keyup)="employeeTable.applyFilter(searchInput.value)" />
+    <mat-icon matSuffix>search</mat-icon>
+    <mat-hint>Nombre o Cargo</mat-hint>
+  </mat-form-field>
+</div>
+<!-- <button mat-raised-button (click)="openDialog('0ms', '0ms')">Open dialog without animation</button> -->
+<!-- <button mat-raised-button (click)="openDialog('3000ms', '1500ms')">Open dialog slowly</button> -->
+
 <div>
-    <button
-      (click)="openDialog('0ms', '0ms')"
-      mat-flat-button
-      class="mb-4"
-      color="primary"
-      matTooltip="Info about the action"
-      matTooltipShowDelay="false"
-      matTooltipHideDelay="false"
-    >
-      <mat-icon>add</mat-icon>
-      Agregar
-    </button>
-  </div>
-  <!-- <button mat-raised-button (click)="openDialog('0ms', '0ms')">Open dialog without animation</button> -->
-  <!-- <button mat-raised-button (click)="openDialog('3000ms', '1500ms')">Open dialog slowly</button> -->
-  
-  <div>
-    <mat-card class="cardWithShadow">
-      <mat-card-content>  
-        <div class="table-responsive">
-          <employee-table />
-        </div>
-      </mat-card-content>
-    </mat-card>
-  </div>
-  
+  <mat-card class="cardWithShadow">
+    <mat-card-content>
+      <div class="table-responsive">
+        <employee-table #employeeTable />
+      </div>
+    </mat-card-content>
+  </mat-card>
+</div>

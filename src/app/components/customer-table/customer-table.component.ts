@@ -48,14 +48,19 @@ export class CustomerTableComponent implements OnInit {
       },
     });
 
-    // this.customerService.employees$.subscribe({
-    //   next: (employees) => {
-    //     this.dataSource1 = new MatTableDataSource<Employee>(employees);
-    //     this.employeeList = employees;
-    //     this.cdr.detectChanges()
-    //     this.dataSource1.paginator = this.paginator
-    //   }
-    // })
+    this.dataSource1.filterPredicate = (data: ICustomer, filter: string) => {
+      const search = filter.trim().toLowerCase();
+      const nombreCompleto = data.nombres.toLowerCase();
+      const correo = (data.email || '').toLowerCase();
+      return nombreCompleto.includes(search) || correo.includes(search);
+    };
+  }
+
+  applyFilter(filterValue: string) {
+    this.dataSource1.filter = filterValue.trim().toLowerCase();
+    if (this.dataSource1.paginator) {
+      this.dataSource1.paginator.firstPage();
+    }
   }
 
   ngAfterViewInit() {

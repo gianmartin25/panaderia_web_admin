@@ -18,14 +18,11 @@ export class EmployeeTableComponent implements OnInit {
   private employeeService = inject(EmpleadoService);
   private cdr = inject(ChangeDetectorRef)
   public employeeList: Employee[] = [];
-  displayedColumns1: string[] = ['select', 'nombre_completo', 'fecha_nacimiento', 'fecha_contracion', 'cargo', 'n_documento', 'tipo_documento', 'budget'];
+  displayedColumns1: string[] = ['select', 'nombre_completo','email', 'fecha_nacimiento', 'fecha_contracion', 'cargo', 'n_documento', 'tipo_documento', 'budget'];
   dataSource1 = new MatTableDataSource<Employee>([]);
   selection = new SelectionModel<Employee>(true, []);
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
-
-
-
 
   ngOnInit(): void {
     this.employeeService.getEmployees().subscribe({
@@ -46,6 +43,13 @@ export class EmployeeTableComponent implements OnInit {
         this.dataSource1.paginator = this.paginator
       }
     })
+
+    this.dataSource1.filterPredicate = (data: Employee, filter: string) => {
+      const search = filter.trim().toLowerCase();
+      const nombreCompleto = (data.nombres + ' ' + data.apellidos).toLowerCase();
+      const cargo = (data.cargoEmpleado || '').toLowerCase();
+      return nombreCompleto.includes(search) || cargo.includes(search);
+    };
   }
 
   ngAfterViewInit() {
@@ -72,5 +76,12 @@ export class EmployeeTableComponent implements OnInit {
       return `${this.isAllSelected() ? 'deselect' : 'select'} all`;
     }
     return `${this.selection.isSelected(row) ? 'deselect' : 'select'} row ${row.id + 1}`;
+  }
+
+  applyFilter(filterValue: string) {
+    this.dataSource1.filter = filterValue.trim().toLowerCase();
+    if (this.dataSource1.paginator) {
+      this.dataSource1.paginator.firstPage();
+    }
   }
 }

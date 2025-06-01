@@ -7,13 +7,21 @@
         <!-- Checkbox Column -->
         <ng-container matColumnDef="select">
           <th mat-header-cell *matHeaderCellDef>
-            <mat-checkbox (change)="$event ? toggleAllRows() : null" [checked]="selection.hasValue() && isAllSelected()"
-              [indeterminate]="selection.hasValue() && !isAllSelected()" [aria-label]="checkboxLabel()">
+            <mat-checkbox
+              (change)="$event ? toggleAllRows() : null"
+              [checked]="selection.hasValue() && isAllSelected()"
+              [indeterminate]="selection.hasValue() && !isAllSelected()"
+              [aria-label]="checkboxLabel()"
+            >
             </mat-checkbox>
           </th>
           <td mat-cell *matCellDef="let row">
-            <mat-checkbox (click)="$event.stopPropagation()" (change)="$event ? selection.toggle(row) : null"
-              [checked]="selection.isSelected(row)" [aria-label]="checkboxLabel(row)">
+            <mat-checkbox
+              (click)="$event.stopPropagation()"
+              (change)="$event ? selection.toggle(row) : null"
+              [checked]="selection.isSelected(row)"
+              [aria-label]="checkboxLabel(row)"
+            >
             </mat-checkbox>
           </td>
         </ng-container>
@@ -21,8 +29,12 @@
 
         <!-- Name Column -->
         <ng-container matColumnDef="nombre">
-          <th mat-header-cell *matHeaderCellDef class="f-w-600 mat-subtitle-1 f-s-14 p-l-0">
-          Nombre
+          <th
+            mat-header-cell
+            *matHeaderCellDef
+            class="f-w-600 mat-subtitle-1 f-s-14 p-l-0"
+          >
+            Nombre
           </th>
           <td mat-cell *matCellDef="let element" class="p-l-0">
             <div class="d-flex align-items-center">
@@ -36,8 +48,12 @@
         </ng-container>
 
         <ng-container matColumnDef="cantidad">
-          <th mat-header-cell *matHeaderCellDef class="f-w-600 mat-subtitle-1 f-s-14 p-l-0">
-            Cantidad Ingresada
+          <th
+            mat-header-cell
+            *matHeaderCellDef
+            class="f-w-600 mat-subtitle-1 f-s-14 p-l-0"
+          >
+            Cantidad
           </th>
           <td mat-cell *matCellDef="let element" class="p-l-0">
             <div class="d-flex align-items-center">
@@ -50,15 +66,38 @@
           </td>
         </ng-container>
 
-        <ng-container matColumnDef="fechaIngreso">
-          <th mat-header-cell *matHeaderCellDef class="f-w-600 mat-subtitle-1 f-s-14 p-l-0">
-            Fecha de Ingreso
+        <ng-container matColumnDef="tipomovimiento">
+          <th
+            mat-header-cell
+            *matHeaderCellDef
+            class="f-w-600 mat-subtitle-1 f-s-14 p-l-0"
+          >
+            Tipo de Movimiento
           </th>
           <td mat-cell *matCellDef="let element" class="p-l-0">
             <div class="d-flex align-items-center">
               <div class="m-l-16">
                 <h6 class="mat-subtitle-1 f-s-14 f-w-600">
-                  {{ element.fechaIngreso | date:'shortDate' }}
+                  {{ element.tipoMovimientoNombre  }}
+                </h6>
+              </div>
+            </div>
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="fechaIngreso">
+          <th
+            mat-header-cell
+            *matHeaderCellDef
+            class="f-w-600 mat-subtitle-1 f-s-14 p-l-0"
+          >
+            Fecha
+          </th>
+          <td mat-cell *matCellDef="let element" class="p-l-0">
+            <div class="d-flex align-items-center">
+              <div class="m-l-16">
+                <h6 class="mat-subtitle-1 f-s-14 f-w-600">
+                  {{ element.fechaRegistro | date : "shortDate" }}
                 </h6>
               </div>
             </div>
@@ -66,7 +105,11 @@
         </ng-container>
 
         <ng-container matColumnDef="supplier">
-          <th mat-header-cell *matHeaderCellDef class="f-w-600 mat-subtitle-1 f-s-14 p-l-0">
+          <th
+            mat-header-cell
+            *matHeaderCellDef
+            class="f-w-600 mat-subtitle-1 f-s-14 p-l-0"
+          >
             Proveedor
           </th>
           <td mat-cell *matCellDef="let element" class="p-l-0">
@@ -82,9 +125,17 @@
 
         <!-- Symbol Column -->
         <ng-container matColumnDef="budget">
-          <th mat-header-cell *matHeaderCellDef class="f-w-600 mat-subtitle-1 f-s-14"></th>
+          <th
+            mat-header-cell
+            *matHeaderCellDef
+            class="f-w-600 mat-subtitle-1 f-s-14"
+          ></th>
           <td mat-cell *matCellDef="let element" class="mat-body-1">
-            <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu">
+            <button
+              mat-icon-button
+              [matMenuTriggerFor]="menu"
+              aria-label="Example icon-button with a menu"
+            >
               <mat-icon>more_vert</mat-icon>
             </button>
             <mat-menu #menu="matMenu">
