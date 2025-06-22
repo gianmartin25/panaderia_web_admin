@@ -56,6 +56,7 @@ export class ProductFormComponent {
       precio: ['', Validators.required],
       categoriaId: [0, Validators.required],
       proveedorId: [0, Validators.required],
+      maxStock: ['', Validators.required], // nuevo campo
     });
   }
 
@@ -89,7 +90,9 @@ export class ProductFormComponent {
 
   onSubmit() {
     console.log(this.productForm.value);
-    if (!this.validateForm()) { return; }
+    if (!this.validateForm()) {
+      return;
+    }
     this.addProduct();
   }
 
@@ -114,6 +117,32 @@ export class ProductFormComponent {
           positionClass: 'toast-top-right',
         }
       );
+      return false;
+    }
+    const precio = this.productForm.get('precio')?.value;
+    if (
+      precio === null ||
+      precio === undefined ||
+      isNaN(precio) ||
+      Number(precio) <= 0
+    ) {
+      this.toastr.error('El precio debe ser mayor a cero.', 'Precio inválido', {
+        timeOut: 3000,
+        positionClass: 'toast-top-right',
+      });
+      return false;
+    }
+    const limiteCompra = this.productForm.get('maxStock')?.value;
+    if (
+      limiteCompra === null ||
+      limiteCompra === undefined ||
+      isNaN(limiteCompra) ||
+      Number(limiteCompra) <= 0
+    ) {
+      this.toastr.error('El límite de compra debe ser mayor a cero.', 'Límite inválido', {
+        timeOut: 3000,
+        positionClass: 'toast-top-right',
+      });
       return false;
     }
     return true;

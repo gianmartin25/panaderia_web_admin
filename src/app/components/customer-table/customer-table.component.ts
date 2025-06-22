@@ -12,6 +12,7 @@ import { MatTableDataSource } from '@angular/material/table';
 import { MaterialModule } from 'src/app/material.module';
 import { ICustomer } from 'src/app/models/customers/customer.model';
 import { CustomerService } from 'src/app/services/customers/customer.service';
+import { trigger, transition, style, animate } from '@angular/animations';
 
 @Component({
   selector: 'customer-table',
@@ -19,6 +20,17 @@ import { CustomerService } from 'src/app/services/customers/customer.service';
   imports: [CommonModule, MaterialModule],
   templateUrl: './customer-table.component.html',
   styleUrl: './customer-table.component.scss',
+  animations: [
+    trigger('fadeInOut', [
+      transition(':enter', [
+        style({ opacity: 0, transform: 'translateY(-10px)' }),
+        animate('300ms ease', style({ opacity: 1, transform: 'translateY(0)' })),
+      ]),
+      transition(':leave', [
+        animate('200ms ease', style({ opacity: 0, transform: 'translateY(-10px)' })),
+      ]),
+    ]),
+  ],
 })
 export class CustomerTableComponent implements OnInit {
   private customerService = inject(CustomerService);
@@ -35,6 +47,7 @@ export class CustomerTableComponent implements OnInit {
   ];
   dataSource1 = new MatTableDataSource<ICustomer>([]);
   selection = new SelectionModel<ICustomer>(true, []);
+  noResults = false;
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
 
@@ -58,6 +71,7 @@ export class CustomerTableComponent implements OnInit {
 
   applyFilter(filterValue: string) {
     this.dataSource1.filter = filterValue.trim().toLowerCase();
+    this.noResults = this.dataSource1.filteredData.length === 0;
     if (this.dataSource1.paginator) {
       this.dataSource1.paginator.firstPage();
     }

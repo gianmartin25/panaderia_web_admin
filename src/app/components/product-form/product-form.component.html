@@ -60,6 +60,18 @@
             </mat-select>
           </mat-form-field>
         </div>
+        <div class="col-lg-6">
+          <mat-label class="f-w-600 m-b-8 d-block">Límite de compra</mat-label>
+          <mat-form-field appearance="outline" class="w-100" color="primary">
+            <input
+              matInput
+              type="number"
+              placeholder="Límite máximo por cliente"
+              formControlName="maxStock"
+              min="1"
+            />
+          </mat-form-field>
+        </div>
         <div *ngFor="let progressInfo of progressInfos">
           <span>{{ progressInfo.fileName }}</span>
           <mat-toolbar class="progress-bar">

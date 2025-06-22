@@ -25,12 +25,13 @@ export interface productsData {
   styleUrl: './product-table.component.scss',
 })
 export class ProductTableComponent {
-  displayedColumns1: string[] = ['select', 'assigned', 'price', 'totalCantidad', 'category', 'supplier', 'budget'];
+  displayedColumns1: string[] = ['select', 'assigned', 'price', 'limiteCompra', 'totalCantidad', 'category', 'supplier', 'budget'];
   private productService = inject(ProductService);
   private cdr = inject(ChangeDetectorRef)
   public productList: Product[] = [];
   dataSource1 = new MatTableDataSource<Product>([]);
   selection = new SelectionModel<Product>(true, []);
+  noResults = false;
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
 
@@ -40,11 +41,11 @@ export class ProductTableComponent {
   ngOnInit(): void {
     this.productService.getProducts().subscribe({
       next: (products) => {
-
         this.dataSource1 = new MatTableDataSource<Product>(products);
         this.productList = products;
-        this.cdr.detectChanges()
-        this.dataSource1.paginator = this.paginator
+        this.cdr.detectChanges();
+        this.dataSource1.paginator = this.paginator;
+        this.setFilterPredicate();
       }
     });
 
@@ -52,10 +53,28 @@ export class ProductTableComponent {
       next: (products) => {
         this.dataSource1 = new MatTableDataSource<Product>(products);
         this.productList = products;
-        this.cdr.detectChanges()
-        this.dataSource1.paginator = this.paginator
+        this.cdr.detectChanges();
+        this.dataSource1.paginator = this.paginator;
+        this.setFilterPredicate();
       }
-    })
+    });
+  }
+
+  setFilterPredicate() {
+    this.dataSource1.filterPredicate = (data: Product, filter: string) => {
+      const search = filter.trim().toLowerCase();
+      const nombre = (data.nombre || '').toLowerCase();
+      const categoria = (data.categoriaNombre || '').toLowerCase();
+      return nombre.includes(search) || categoria.includes(search);
+    };
+  }
+
+  applyFilter(filterValue: string) {
+    this.dataSource1.filter = filterValue.trim().toLowerCase();
+    this.noResults = this.dataSource1.filteredData.length === 0;
+    if (this.dataSource1.paginator) {
+      this.dataSource1.paginator.firstPage();
+    }
   }
 
   ngAfterViewInit() {

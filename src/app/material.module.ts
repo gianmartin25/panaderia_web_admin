@@ -27,7 +27,7 @@ import { MatBadgeModule } from '@angular/material/badge';
 import { MatButtonModule } from '@angular/material/button';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { MatChipsModule } from '@angular/material/chips';
-import { MatRippleModule } from '@angular/material/core';
+import { MatRippleModule, provideNativeDateAdapter } from '@angular/material/core';
 import { MatIconModule } from '@angular/material/icon';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
@@ -81,5 +81,8 @@ import { MatTableModule } from '@angular/material/table';
     MatSortModule,
     MatTableModule,
   ],
+  providers:[
+    provideNativeDateAdapter()
+  ]
 })
 export class MaterialModule { }
