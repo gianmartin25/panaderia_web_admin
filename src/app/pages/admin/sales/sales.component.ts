@@ -4,6 +4,9 @@ import { MatTableDataSource } from '@angular/material/table';
 import { MaterialModule } from 'src/app/material.module';
 import { ProductOrder } from 'src/app/models/order/order-product.model';
 import { OrderService } from 'src/app/services/order.service';
+import { MatDialog } from '@angular/material/dialog';
+import { SalesUpdateStatusComponent } from 'src/app/components/sales-update-status/sales-update-status.component';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-sales',
@@ -15,6 +18,8 @@ import { OrderService } from 'src/app/services/order.service';
 export class SalesComponent implements OnInit {
   private orderService: OrderService = inject(OrderService);
   private cdr = inject(ChangeDetectorRef);
+  private dialog = inject(MatDialog);
+  private toastr = inject(ToastrService);
 
   columnas: string[] = [
     'fechaCreacion',
@@ -23,6 +28,7 @@ export class SalesComponent implements OnInit {
     'estado',
     'pagado',
     'productos',
+    'acciones',
   ];
   sales = new MatTableDataSource<ProductOrder>([]);
 
@@ -40,6 +46,24 @@ export class SalesComponent implements OnInit {
       error: (error) => {
         console.error(error);
       },
+    });
+  }
+
+  openUpdateStatusModal(sale: ProductOrder): void {
+    const dialogRef = this.dialog.open(SalesUpdateStatusComponent, {
+      width: '600px',
+      data: sale,
+    });
+
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result) {
+        // Actualizar la lista de ventas
+        this.getOrders();
+        this.toastr.info('La lista de ventas ha sido actualizada', 'Datos actualizados', {
+          timeOut: 2000,
+          positionClass: 'toast-top-right',
+        });
+      }
     });
   }
 }

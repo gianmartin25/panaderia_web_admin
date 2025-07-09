@@ -1,0 +1,54 @@
+<div class="dialog-container">
+  <h2 mat-dialog-title>Actualizar Estado de Venta</h2>
+  
+  <mat-dialog-content>
+    <!-- Detalles de la venta -->
+    <div class="sale-details mb-4">
+      <h3>Detalles de la Venta</h3>
+      <div class="details-grid">
+        <p><strong>Fecha:</strong> {{ data.fechaCreacion | date }}</p>
+        <p><strong>Cliente:</strong> {{ data.cliente }}</p>
+        <p><strong>Total:</strong> {{ data.total | currency:'PEN' }}</p>
+        <p><strong>Estado Actual:</strong> {{ data.estado }}</p>
+        <p><strong>Pagado:</strong> {{ data.pagado ? 'Sí' : 'No' }}</p>
+      </div>
+    </div>
+
+    <!-- Productos -->
+    <div class="products-section mb-4">
+      <h3>Productos</h3>
+      <mat-list>
+        <mat-list-item *ngFor="let producto of data.productos">
+          <div class="flex gap-2 items-center">
+            <img
+              [src]="producto.imagen"
+              class="object-contain"
+              width="40"
+              height="40"
+            />
+            <span>{{ producto.nombre }} - {{ producto.cantidad }} x {{ producto.precio | currency:'PEN' }}</span>
+          </div>
+        </mat-list-item>
+      </mat-list>
+    </div>
+
+    <!-- Formulario para actualizar estado -->
+    <form [formGroup]="statusForm" (ngSubmit)="onSubmit()">
+      <mat-form-field appearance="outline" class="w-100">
+        <mat-label>Nuevo Estado</mat-label>
+        <mat-select formControlName="estado">
+          <mat-option *ngFor="let estado of estados" [value]="estado.id">
+            {{ estado.nombre }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </form>
+  </mat-dialog-content>
+
+  <mat-dialog-actions align="end">
+    <button mat-button (click)="onCancel()">Cancelar</button>
+    <button mat-raised-button color="primary" (click)="onSubmit()" [disabled]="statusForm.invalid">
+      Actualizar
+    </button>
+  </mat-dialog-actions>
+</div>
